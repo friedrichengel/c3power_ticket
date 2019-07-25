@@ -1,22 +1,8 @@
 <?php
-if(!isset($_GET['pdu']))  
-    $pdu_id = 0; 
-else
-    $pdu_id = trim(strip_tags($_GET['pdu'])); 
+$pdu = isset($_GET['pdu']) ? (int) $_GET['pdu'] : 0;
 
-if (! preg_match("/^[0-9]{1,3}$/", $pdu_id)) {
-    $pdu_id = 0;
-}
-
-if (($pdu_id >0)&&($pdu_id <500))
-    $pdu_id_checked =  $pdu_id + 0;
-else
-    $pdu_id_checked = 0;
-
-//echo "Debug: PDU_ID = $pdu_id, PDU_ID_Checked = $pdu_id_checked";
-
-if ($pdu_id_checked == 0){
-echo "
+if (!($pdu > 0 && $pdu < 500)) {
+?>
     <!DOCTYPE html>
     <html lang=\"de\">
     <head>
@@ -31,24 +17,24 @@ echo "
 
     </body>
     </html>
-    ";
+<?php
 } else {
-echo "
+?>
     <!DOCTYPE html>
     <html lang=\"de\">
     <head>
-        <meta charset=\"utf-8\" />
-        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
+        <meta charset=\"utf-8\"/>
+        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>
         <title>PDU - Support</title>
         <script src=\"https://code.jquery.com/jquery-2.1.4.min.js\"></script>
         <script id=\"zammad_form_script\" src=\"https://ticket.c3power.de/assets/form/form.js\"></script>
         <script>
-            $(function() {
+            $(function () {
                 $('#feedback-form').ZammadForm({
-                messageTitle: 'PDU_".$pdu_id_checked." Support',
-                messageSubmit: 'Übermitteln',
-                messageThankYou: 'Vielen Dank für Ihre Anfrage (#%s). Wir melden uns umgehend!',
-                showTitle: true
+                    messageTitle: 'PDU_<?=$pdu?> Support',
+                    messageSubmit: 'Übermitteln',
+                    messageThankYou: 'Vielen Dank für Ihre Anfrage (#%s). Wir melden uns umgehend!',
+                    showTitle: true
                 });
             });
         </script>
@@ -59,6 +45,6 @@ echo "
 
     </body>
     </html>
-    ";
+<?php
 }
 ?>
